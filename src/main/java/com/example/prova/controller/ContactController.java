@@ -1,6 +1,8 @@
 package com.example.prova.controller;
 
 
+import com.example.prova.dto.ContactDTO;
+import com.example.prova.dto.input.NewContactDTO;
 import com.example.prova.model.Contact;
 import com.example.prova.service.ContactService;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +20,13 @@ public class ContactController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Contact> index(){
+    public List<ContactDTO> index(){
         return contactService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Contact create(@Valid @RequestBody Contact contact){
-        return contactService.create(contact);
+    public ContactDTO create(@Valid @RequestBody NewContactDTO newContactDTO){
+        return contactService.create(newContactDTO);
     }
 }
