@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
@@ -16,9 +17,15 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "name is required")
     private String name;
+
     @Column(unique=true)
+    @NotBlank(message = "email is required")
     private String email;
+
     @Column(unique=true)
+    @NotBlank(message = "phone is required")
     private String phone;
 }
