@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Service
@@ -16,5 +17,9 @@ public class ContactService {
 
     public List<Contact> findAll() {
         return contactRepository.findAll();
+    }
+
+    public Contact create(Contact contact) {
+        return contactRepository.save(contact);
     }
 }
