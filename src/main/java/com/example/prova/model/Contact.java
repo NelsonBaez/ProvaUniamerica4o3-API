@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class Contact {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "name is required")
