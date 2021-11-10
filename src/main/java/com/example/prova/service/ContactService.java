@@ -51,4 +51,10 @@ public class ContactService {
     private Contact findUserByIdOrReturnException(long id) throws NotFoundException {
         return contactRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Contact by ID:" + id));
     }
+
+    public String deleteById(long id) throws NotFoundException {
+        findUserByIdOrReturnException(id);
+        contactRepository.deleteById(id);
+        return "Deletado com sucesso";
+    }
 }

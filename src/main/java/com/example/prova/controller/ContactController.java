@@ -37,4 +37,10 @@ public class ContactController {
         return contactService.findById(id);
     }
 
+    @DeleteMapping(path ={"/{id}"})
+    @ResponseStatus(HttpStatus.OK)
+    public String delete(@PathVariable long id) throws NotFoundException {
+        return contactService.deleteById(id);
+    }
+
 }
