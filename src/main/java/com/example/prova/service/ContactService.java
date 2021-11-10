@@ -5,6 +5,7 @@ import com.example.prova.dto.input.NewContactDTO;
 import com.example.prova.exceptions.UniqueException;
 import com.example.prova.model.Contact;
 import com.example.prova.repository.ContactRepository;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,5 +41,14 @@ public class ContactService {
         if(contact.isPresent()){
             throw new UniqueException("Telefone já está cadastrado");
         }
+    }
+
+    public ContactDTO findById(long id) throws NotFoundException {
+        Contact contact = findUserByIdOrReturnException(id);
+        return new ContactDTO(contact);
+    }
+
+    private Contact findUserByIdOrReturnException(long id) throws NotFoundException {
+        return contactRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Contact by ID:" + id));
     }
 }

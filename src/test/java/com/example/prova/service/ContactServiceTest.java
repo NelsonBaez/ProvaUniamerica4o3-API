@@ -5,12 +5,14 @@ import com.example.prova.dto.input.NewContactDTO;
 import com.example.prova.exceptions.UniqueException;
 import com.example.prova.model.Contact;
 import com.example.prova.repository.ContactRepository;
+import javassist.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -74,6 +76,11 @@ class ContactServiceTest {
         Mockito.when(contactRepository.findByPhone(any())).thenReturn(Optional.of(contact));
 
         assertThatThrownBy(() -> contactService.ifPhoneExistsReturnException("888888888")).isInstanceOf(UniqueException.class);
+    }
+
+    @Test
+    void shouldReturnNotFoundExceptionIfContactNotFound() {
+        assertThatThrownBy(() -> contactService.findById(1L)).isInstanceOf(NotFoundException.class);
     }
 
     Contact correctContact(){

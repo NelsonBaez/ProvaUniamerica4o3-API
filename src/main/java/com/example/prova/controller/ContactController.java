@@ -5,6 +5,7 @@ import com.example.prova.dto.ContactDTO;
 import com.example.prova.dto.input.NewContactDTO;
 import com.example.prova.model.Contact;
 import com.example.prova.service.ContactService;
+import javassist.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,15 @@ public class ContactController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public ContactDTO create(@Valid @RequestBody NewContactDTO newContactDTO){
         return contactService.create(newContactDTO);
     }
+
+    @GetMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactDTO show(@PathVariable long id) throws NotFoundException {
+        return contactService.findById(id);
+    }
+
 }
