@@ -67,6 +67,7 @@ class ContactServiceTest {
         Mockito.when(contactRepository.findByEmail(any())).thenReturn(Optional.of(contact));
 
         assertThatThrownBy(() -> contactService.ifEmailExistsReturnException("jorge")).isInstanceOf(UniqueException.class);
+        assertThatThrownBy(() -> contactService.ifEmailExistsReturnException("jorge", 2L)).isInstanceOf(UniqueException.class);
     }
 
     @Test
@@ -76,6 +77,7 @@ class ContactServiceTest {
         Mockito.when(contactRepository.findByPhone(any())).thenReturn(Optional.of(contact));
 
         assertThatThrownBy(() -> contactService.ifPhoneExistsReturnException("888888888")).isInstanceOf(UniqueException.class);
+        assertThatThrownBy(() -> contactService.ifPhoneExistsReturnException("888888888", 2L)).isInstanceOf(UniqueException.class);
     }
 
     @Test

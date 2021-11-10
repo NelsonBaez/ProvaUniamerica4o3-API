@@ -43,4 +43,11 @@ public class ContactController {
         return contactService.deleteById(id);
     }
 
+    @PutMapping(value="/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactDTO update(@PathVariable long id,
+                          @Valid @RequestBody NewContactDTO newContactDTO) throws NotFoundException {
+        return contactService.update(id, newContactDTO);
+    }
+
 }

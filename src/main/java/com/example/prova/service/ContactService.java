@@ -35,10 +35,22 @@ public class ContactService {
             throw new UniqueException("Email já está cadastrado");
         }
     }
+    public void ifEmailExistsReturnException(String email, Long id){
+        var contact = contactRepository.findByEmail(email);
+        if(contact.isPresent() && !contact.get().getId().equals(id)){
+            throw new UniqueException("Email já está cadastrado");
+        }
+    }
 
     public void ifPhoneExistsReturnException(String phone){
         var contact = contactRepository.findByPhone(phone);
         if(contact.isPresent()){
+            throw new UniqueException("Telefone já está cadastrado");
+        }
+    }
+    public void ifPhoneExistsReturnException(String phone, Long id){
+        var contact = contactRepository.findByPhone(phone);
+        if(contact.isPresent() && !contact.get().getId().equals(id)){
             throw new UniqueException("Telefone já está cadastrado");
         }
     }
@@ -56,5 +68,15 @@ public class ContactService {
         findUserByIdOrReturnException(id);
         contactRepository.deleteById(id);
         return "Deletado com sucesso";
+    }
+
+    public ContactDTO update(long id, NewContactDTO newContactDTO) throws NotFoundException {
+        Contact contact = findUserByIdOrReturnException(id);
+        ifEmailExistsReturnException(newContactDTO.getEmail(), id);
+        ifPhoneExistsReturnException(newContactDTO.getPhone(), id);
+        contact.setName(newContactDTO.getName());
+        contact.setPhone(newContactDTO.getPhone());
+        contact.setEmail(newContactDTO.getEmail());
+        return new ContactDTO(contact);
     }
 }
